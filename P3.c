@@ -2,13 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define maximo 100
+#define MAX_LONGITUD 100
 
 typedef struct {
-    char code[maximo];
-    char name[maximo];
+    char codigo[MAX_LONGITUD];
+    char nombre[MAX_LONGITUD];
     float nota;
-} estudiante;
+} Estudiante;
+
+// Función de comparación para qsort
+int compararEstudiantes(const void* a, const void* b) {
+    const Estudiante* estudianteA = (const Estudiante*)a;
+    const Estudiante* estudianteB = (const Estudiante*)b;
+    return strcmp(estudianteA->codigo, estudianteB->codigo);
+}
 
 int main() {
     
