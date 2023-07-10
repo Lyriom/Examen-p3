@@ -1,0 +1,5 @@
+Código,Nombre,Nota
+1003,Ana Belén,75.20
+1002,Luis Miguel,90.00
+1001,Carlos Mata,85.50
+Promedio de notas, ,83.57
