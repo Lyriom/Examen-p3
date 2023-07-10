@@ -36,7 +36,7 @@ int compararEstudiantes(const void *a, const void *b)
 int main()
 {
     FILE *archivoEntrada = fopen("alumnos.txt", "r");
-    FILE *archivoSalida = fopen("output.txt", "w");
+    FILE *archivoSalida = fopen("listaalumnosnueva.txt", "w+");
 
     if (archivoEntrada == NULL || archivoSalida == NULL)
     {
@@ -105,7 +105,7 @@ int main()
     }
 
     // Escribir los promedios de notas en la última fila del archivo de salida
-    fprintf(archivoSalida, "Promedio de notas, , ,%.2f,%.2f,%.2f\n", promedioNotas1, promedioNotas2, promedioNotas3);
+    fprintf(archivoSalida, "Promedio de notas: %.2f,%.2f,%.2f\n", promedioNotas1, promedioNotas2, promedioNotas3);
 
     // Cerrar los archivos
     fclose(archivoEntrada);
