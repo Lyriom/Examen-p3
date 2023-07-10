@@ -24,8 +24,11 @@ int compararEstudiantes(const void* a, const void* b) {
 }
 
 int main() {
-    
-    printf("Hello world");
+    FILE* archivoEntrada = fopen("input.txt", "r");
+    FILE* archivoSalida = fopen("output.txt", "w");
 
-    return 0;
+    if (archivoEntrada == NULL || archivoSalida == NULL) {
+        printf("Error al abrir los archivos.\n");
+        return 1;
+    }
 }
