@@ -29,8 +29,9 @@ int compararEstudiantes(const void *a, const void *b)
 {
     const Estudiante *estudianteA = (const Estudiante *)a;
     const Estudiante *estudianteB = (const Estudiante *)b;
-    return strcmp(estudianteA->codigo, estudianteB->codigo); // Cambio en la función de comparación para ordenar de menor a mayor
+    return strcmp(estudianteB->codigo, estudianteA->codigo); // Cambio en la función de comparación para ordenar de mayor a menor
 }
+
 
 int main()
 {
