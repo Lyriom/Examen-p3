@@ -38,5 +38,28 @@ int main() {
     while (fscanf(archivoEntrada, "%[^,],%[^,],%f\n", estudiantes[cantidadEstudiantes].codigo, estudiantes[cantidadEstudiantes].nombre, &estudiantes[cantidadEstudiantes].nota) == 3) {
         cantidadEstudiantes++;
     }
+    // Ordenar los estudiantes por código
+    qsort(estudiantes, cantidadEstudiantes, sizeof(Estudiante), compararEstudiantes);
+
+    // Calcular el promedio de notas
+    float promedioNotas = calcularPromedioNotas(estudiantes, cantidadEstudiantes);
+
+    // Escribir los estudiantes ordenados en el archivo de salida
+    fprintf(archivoSalida, "Código,Nombre,Nota\n");
+    for (int i = 0; i < cantidadEstudiantes; i++) {
+        fprintf(archivoSalida, "%s,%s,%.2f\n", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].nota);
+    }
+
+    // Escribir el promedio de notas en el archivo de salida
+    fprintf(archivoSalida, "Promedio de notas, ,%.2f\n", promedioNotas);
+
+    // Cerrar los archivos
+    fclose(archivoEntrada);
+    fclose(archivoSalida);
+
+    printf("Archivo generado correctamente.\n");
+
+    return 0;
+}
     
 }
