@@ -31,4 +31,12 @@ int main() {
         printf("Error al abrir los archivos.\n");
         return 1;
     }
+    Estudiante estudiantes[max];
+    int cantidadEstudiantes = 0;
+
+    // Leer los datos del archivo
+    while (fscanf(archivoEntrada, "%[^,],%[^,],%f\n", estudiantes[cantidadEstudiantes].codigo, estudiantes[cantidadEstudiantes].nombre, &estudiantes[cantidadEstudiantes].nota) == 3) {
+        cantidadEstudiantes++;
+    }
+    
 }
