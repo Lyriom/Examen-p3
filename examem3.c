@@ -80,8 +80,21 @@ int main()
     // Ordenar los estudiantes por código
     qsort(estudiantes, cantidadEstudiantes, sizeof(Estudiante), compararEstudiantes);
 
-    // Calcular el promedio de notas
-    float promedioNotas = calcularPromedioNotas(estudiantes, cantidadEstudiantes);
+    // Calcular el promedio de notas por cada columna
+    float promedioNotas1 = 0.0;
+    float promedioNotas2 = 0.0;
+    float promedioNotas3 = 0.0;
+
+    for (int i = 0; i < cantidadEstudiantes; i++)
+    {
+        promedioNotas1 += estudiantes[i].notas[0];
+        promedioNotas2 += estudiantes[i].notas[1];
+        promedioNotas3 += estudiantes[i].notas[2];
+    }
+
+    promedioNotas1 /= cantidadEstudiantes;
+    promedioNotas2 /= cantidadEstudiantes;
+    promedioNotas3 /= cantidadEstudiantes;
 
     // Escribir los estudiantes ordenados en el archivo de salida
     fprintf(archivoSalida, "Código,Nombre,Carrera,Nota1,Nota2,Nota3\n");
@@ -91,8 +104,8 @@ int main()
                 estudiantes[i].notas[0], estudiantes[i].notas[1], estudiantes[i].notas[2]);
     }
 
-    // Escribir el promedio de notas en el archivo de salida
-    fprintf(archivoSalida, "Promedio de notas, , , , ,%.2f\n", promedioNotas);
+    // Escribir los promedios de notas en la última fila del archivo de salida
+    fprintf(archivoSalida, "Promedio de notas, , ,%.2f,%.2f,%.2f\n", promedioNotas1, promedioNotas2, promedioNotas3);
 
     // Cerrar los archivos
     fclose(archivoEntrada);
