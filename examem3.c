@@ -8,7 +8,8 @@ typedef struct
 {
     char codigo[100];
     char nombre[100];
-    float nota;
+    char carrera[100];
+    float notas[3];
 } Estudiante;
 
 float calcularPromedioNotas(Estudiante *estudiantes, int cantidad)
@@ -16,21 +17,24 @@ float calcularPromedioNotas(Estudiante *estudiantes, int cantidad)
     float suma = 0.0;
     for (int i = 0; i < cantidad; i++)
     {
-        suma += estudiantes[i].nota;
+        for (int j = 0; j < 3; j++)
+        {
+            suma += estudiantes[i].notas[j];
+        }
     }
-    return suma / cantidad;
+    return suma / (cantidad * 3);
 }
 
 int compararEstudiantes(const void *a, const void *b)
 {
     const Estudiante *estudianteA = (const Estudiante *)a;
     const Estudiante *estudianteB = (const Estudiante *)b;
-    return strcmp(estudianteB->codigo, estudianteA->codigo); // Cambio en la función de comparación para ordenar de mayor a menor
+    return strcmp(estudianteA->codigo, estudianteB->codigo); // Cambio en la función de comparación para ordenar de menor a mayor
 }
 
 int main()
 {
-    FILE *archivoEntrada = fopen("input.txt", "r");
+    FILE *archivoEntrada = fopen("alumnos.txt", "r");
     FILE *archivoSalida = fopen("output.txt", "w");
 
     if (archivoEntrada == NULL || archivoSalida == NULL)
@@ -42,9 +46,33 @@ int main()
     Estudiante estudiantes[MAX_ESTUDIANTES];
     int cantidadEstudiantes = 0;
 
+    char linea[200]; // Se asume que una línea no excederá los 200 caracteres
+
     // Leer los datos del archivo
-    while (fscanf(archivoEntrada, "%[^,],%[^,],%f\n", estudiantes[cantidadEstudiantes].codigo, estudiantes[cantidadEstudiantes].nombre, &estudiantes[cantidadEstudiantes].nota) == 3)
+    while (fgets(linea, sizeof(linea), archivoEntrada))
     {
+        // Analizar la línea para obtener los campos
+        char *token;
+        token = strtok(linea, ";"); // Separar la línea por el delimitador ";"
+
+        // Obtener el código del estudiante
+        strcpy(estudiantes[cantidadEstudiantes].codigo, token);
+
+        // Obtener el nombre del estudiante
+        token = strtok(NULL, ";");
+        strcpy(estudiantes[cantidadEstudiantes].nombre, token);
+
+        // Obtener la carrera del estudiante
+        token = strtok(NULL, ";");
+        strcpy(estudiantes[cantidadEstudiantes].carrera, token);
+
+        // Obtener las notas del estudiante
+        for (int i = 0; i < 3; i++)
+        {
+            token = strtok(NULL, ";");
+            estudiantes[cantidadEstudiantes].notas[i] = atof(token);
+        }
+
         cantidadEstudiantes++;
     }
 
@@ -55,14 +83,15 @@ int main()
     float promedioNotas = calcularPromedioNotas(estudiantes, cantidadEstudiantes);
 
     // Escribir los estudiantes ordenados en el archivo de salida
-    fprintf(archivoSalida, "Código,Nombre,Nota\n");
+    fprintf(archivoSalida, "Código,Nombre,Carrera,Nota1,Nota2,Nota3\n");
     for (int i = 0; i < cantidadEstudiantes; i++)
     {
-        fprintf(archivoSalida, "%s,%s,%.2f\n", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].nota);
+        fprintf(archivoSalida, "%s,%s,%s,%.2f,%.2f,%.2f\n", estudiantes[i].codigo, estudiantes[i].nombre, estudiantes[i].carrera,
+                estudiantes[i].notas[0], estudiantes[i].notas[1], estudiantes[i].notas[2]);
     }
 
     // Escribir el promedio de notas en el archivo de salida
-    fprintf(archivoSalida, "Promedio de notas, ,%.2f\n", promedioNotas);
+    fprintf(archivoSalida, "Promedio de notas, , , , ,%.2f\n", promedioNotas);
 
     // Cerrar los archivos
     fclose(archivoEntrada);
